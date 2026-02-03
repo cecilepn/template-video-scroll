@@ -1,6 +1,5 @@
 <script setup>
   const { $lenis } = useNuxtApp()
-  const { isMobile } = useDevice()
   const videoRef = ref(null)
   const containerRef = ref(null)
   const containerHeight = ref('50%')
@@ -53,11 +52,7 @@
         muted
         playsinline
         preload="metadata">
-        <source
-          v-if="isMobile"
-          src="/content/video-mobile.mp4"
-          type="video/mp4" />
-        <source v-else src="/content/video-desktop.mp4" type="video/mp4" />
+        <source src="/content/video-desktop.mp4" type="video/mp4" />
       </video>
     </div>
   </div>

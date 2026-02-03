@@ -8,11 +8,10 @@
   onMounted(() => {
     if (!videoRef.value) return
     const video = videoRef.value
-    console.log({ video })
 
     const newHeight = video.duration * 500
+    console.log(video.duration)
     containerHeight.value = `${newHeight}px`
-    console.log({ newHeight })
 
     $lenis.on('scroll', updateScrollProgress)
   })

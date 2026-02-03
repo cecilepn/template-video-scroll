@@ -8,9 +8,8 @@
     if (!videoRef.value) return
     const video = videoRef.value
 
-    video.addEventListener('loadedmeta', () => {
+    video.addEventListener('loadedmetadata', () => {
       const newHeight = video.duration * 500
-      console.log(video.duration)
       containerHeight.value = `${newHeight}px`
     })
 

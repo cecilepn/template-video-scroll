@@ -4,7 +4,8 @@
   const containerRef = ref(null)
   const containerHeight = ref('50%')
 
-  onMounted(() => {
+  onMounted(async () => {
+    await nextTick()
     if (!videoRef.value) return
     const video = videoRef.value
 

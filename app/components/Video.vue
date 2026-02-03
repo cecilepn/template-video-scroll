@@ -3,6 +3,7 @@
   const videoRef = ref(null)
   const containerRef = ref(null)
   const containerHeight = ref('50%')
+  let raf = null
 
   onMounted(() => {
     if (!videoRef.value) return
@@ -13,8 +14,14 @@
       containerHeight.value = `${newHeight}px`
     })
 
-    $lenis.on('scroll', updateScrollProgress)
+    $lenis.on('scroll', startRaf)
   })
+
+  const startRaf = () => {
+    if (raf) return
+    raf = requestAnimationFrame(updateScrollProgress)
+    raf = null
+  }
 
   const updateScrollProgress = () => {
     if (!containerRef.value || !videoRef.value) return
@@ -33,10 +40,12 @@
       progress = Math.min(Math.max(progress, 0), 1)
       video.currentTime = progress * video.duration
     }
+    raf = requestAnimationFrame(updateScrollProgress)
   }
 
   onBeforeUnmount(() => {
-    $lenis.off('scroll', updateScrollProgress)
+    if (raf) cancelAnimationFrame(raf)
+    $lenis.off('scroll', startRaf)
   })
 </script>
 

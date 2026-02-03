@@ -4,8 +4,7 @@
   const containerRef = ref(null)
   const containerHeight = ref('50%')
 
-  onMounted(async () => {
-    await nextTick()
+  onMounted(() => {
     if (!videoRef.value) return
     const video = videoRef.value
 
@@ -18,24 +17,22 @@
   })
 
   const updateScrollProgress = () => {
-    nextTick(() => {
-      if (!containerRef.value || !videoRef.value) return
-      const container = containerRef.value
-      const video = videoRef.value
+    if (!containerRef.value || !videoRef.value) return
+    const container = containerRef.value
+    const video = videoRef.value
 
-      const windowHeight = window.innerHeight
-      const containerRect = container.getBoundingClientRect()
+    const windowHeight = window.innerHeight
+    const containerRect = container.getBoundingClientRect()
 
-      const containerHeight = containerRect.height
-      const containerTop = containerRect.top
-      const containerBottom = containerRect.bottom
+    const containerHeight = containerRect.height
+    const containerTop = containerRect.top
+    const containerBottom = containerRect.bottom
 
-      if (containerTop <= 0 && containerBottom >= windowHeight) {
-        let progress = -containerTop / (containerHeight - windowHeight)
-        progress = Math.min(Math.max(progress, 0), 1)
-        video.currentTime = progress * video.duration
-      }
-    })
+    if (containerTop <= 0 && containerBottom >= windowHeight) {
+      let progress = -containerTop / (containerHeight - windowHeight)
+      progress = Math.min(Math.max(progress, 0), 1)
+      video.currentTime = progress * video.duration
+    }
   }
 
   onBeforeUnmount(() => {

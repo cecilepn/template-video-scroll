@@ -11,6 +11,7 @@
 
     const newHeight = video.duration * 500
     containerHeight.value = `${newHeight}px`
+    console.log({ newHeight })
 
     $lenis.on('scroll', updateScrollProgress)
   })
@@ -27,8 +28,10 @@
       const containerHeight = containerRect.height
       const containerTop = containerRect.top
       const containerBottom = containerRect.bottom
+      console.log({ video, containerHeight })
 
       if (containerTop <= 0 && containerBottom >= windowHeight) {
+        console.log('progress')
         let progress = -containerTop / (containerHeight - windowHeight)
         progress = Math.min(Math.max(progress, 0), 1)
         video.currentTime = progress * video.duration

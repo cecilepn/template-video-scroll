@@ -7,20 +7,18 @@
   const containerHeight = ref('50%')
 
   const targetIsVisible = useElementVisibility(videoRef)
-  watch(targetIsVisible, isVisible => {
-    if (isVisible) {
-      unlockVideo()
-    }
-  })
+  // watch(targetIsVisible, isVisible => {
+  //   if (isVisible) {
+  //     unlockVideo()
+  //   }
+  // })
 
   const unlockVideo = () => {
     const video = videoRef.value
     if (!video) return
     console.log('unlockVideo')
     video.play()
-    setTimeout(() => {
-      video.pause()
-    }, 100)
+    setTimeout(() => video.pause(), 100)
   }
 
   onMounted(() => {
@@ -68,8 +66,7 @@
         class="w-full h-full object-cover"
         poster="/video-desktop.png"
         muted
-        playsinline
-        preload="auto">
+        preload="metadata">
         <source
           src="https://template-video-lenis.cdn.prismic.io/template-video-lenis/aYMPvd0YXLCxVWZK_video-desktop.mp4"
           type="video/mp4" />

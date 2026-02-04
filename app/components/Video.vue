@@ -45,11 +45,7 @@
 <template>
   <div ref="containerRef" :style="`height: ${containerHeight}`">
     <div class="h-screen w-screen sticky top-0 left-0">
-      <video
-        ref="videoRef"
-        class="w-full h-full object-cover"
-        muted
-        playsinline>
+      <video ref="videoRef" class="w-full h-full object-cover">
         <source
           src="https://template-video-lenis.cdn.prismic.io/template-video-lenis/aYMPvd0YXLCxVWZK_video-desktop.mp4"
           type="video/mp4" />

@@ -1,51 +1,43 @@
 <script setup>
   const { $lenis } = useNuxtApp()
+
   const videoRef = ref(null)
   const containerRef = ref(null)
   const containerHeight = ref('50%')
-  let raf = null
 
   onMounted(() => {
     if (!videoRef.value) return
     const video = videoRef.value
 
-    video.addEventListener('loadedmetadata', () => {
-      const newHeight = video.duration * 500
-      containerHeight.value = `${newHeight}px`
-    })
+    const updateHeight = () => {
+      if (!video.duration) return
+      console.log('update')
+      containerHeight.value = `${video.duration * 500}px`
+    }
 
-    $lenis.on('scroll', startRaf)
+    video.addEventListener('loadedmetadata', updateHeight)
+    $lenis.on('scroll', updateScrollProgress)
   })
-
-  const startRaf = () => {
-    if (raf) return
-    raf = requestAnimationFrame(updateScrollProgress)
-    raf = null
-  }
 
   const updateScrollProgress = () => {
     if (!containerRef.value || !videoRef.value) return
+
     const container = containerRef.value
     const video = videoRef.value
 
     const windowHeight = window.innerHeight
     const containerRect = container.getBoundingClientRect()
 
-    const containerHeight = containerRect.height
-    const containerTop = containerRect.top
-    const containerBottom = containerRect.bottom
-
-    if (containerTop <= 0 && containerBottom >= windowHeight) {
-      let progress = -containerTop / (containerHeight - windowHeight)
+    if (containerRect.top <= 0 && containerRect.bottom >= windowHeight) {
+      let progress = -containerRect.top / (containerRect.height - windowHeight)
       progress = Math.min(Math.max(progress, 0), 1)
+
       video.currentTime = progress * video.duration
     }
-    raf = requestAnimationFrame(updateScrollProgress)
   }
 
   onBeforeUnmount(() => {
-    if (raf) cancelAnimationFrame(raf)
-    $lenis.off('scroll', startRaf)
+    $lenis.off('scroll', updateScrollProgress)
   })
 </script>
 
@@ -57,7 +49,7 @@
         class="w-full h-full object-cover"
         muted
         playsinline
-        preload="metadata">
+        preload="auto">
         <source src="/content/video-desktop.mp4" type="video/mp4" />
       </video>
     </div>

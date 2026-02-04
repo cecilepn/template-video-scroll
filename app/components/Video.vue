@@ -9,13 +9,11 @@
     if (!videoRef.value) return
     const video = videoRef.value
 
-    const updateHeight = () => {
+    video.addEventListener('loadedmetadata', () => {
       if (!video.duration) return
-      console.log('update')
       containerHeight.value = `${video.duration * 500}px`
-    }
+    })
 
-    video.addEventListener('loadedmetadata', updateHeight)
     $lenis.on('scroll', updateScrollProgress)
   })
 

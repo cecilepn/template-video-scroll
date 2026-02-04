@@ -1,50 +1,29 @@
 <script setup>
-  import { useElementVisibility } from '@vueuse/core'
   const { $lenis } = useNuxtApp()
-
   const videoRef = ref(null)
   const containerRef = ref(null)
   const containerHeight = ref('50%')
-
-  const targetIsVisible = useElementVisibility(videoRef)
-  // watch(targetIsVisible, isVisible => {
-  //   if (isVisible) {
-  //     unlockVideo()
-  //   }
-  // })
-
-  const unlockVideo = () => {
-    const video = videoRef.value
-    if (!video) return
-    console.log('unlockVideo')
-    video.play()
-    setTimeout(() => video.pause(), 100)
-  }
 
   onMounted(() => {
     if (!videoRef.value) return
     const video = videoRef.value
 
-    const updateHeight = () => {
+    video.addEventListener('loadedmetadata', () => {
       if (!video.duration) return
-      containerHeight.value = `${video.duration * 500}px`
-    }
-
-    video.addEventListener('loadedmetadata', updateHeight)
+      const pxPerSecond = 500
+      containerHeight.value = `${video.duration * pxPerSecond}px`
+    })
     $lenis.on('scroll', updateScrollProgress)
   })
 
   const updateScrollProgress = () => {
     if (!containerRef.value || !videoRef.value) return
-
-    const container = containerRef.value
     const video = videoRef.value
+    const containerRect = containerRef.value.getBoundingClientRect()
 
-    const windowHeight = window.innerHeight
-    const containerRect = container.getBoundingClientRect()
-
-    if (containerRect.top <= 0 && containerRect.bottom >= windowHeight) {
-      let progress = -containerRect.top / (containerRect.height - windowHeight)
+    if (containerRect.top <= 0 && containerRect.bottom >= window.innerHeight) {
+      let progress =
+        -containerRect.top / (containerRect.height - window.innerHeight)
 
       progress = Math.min(Math.max(progress, 0), 1)
 
@@ -60,7 +39,6 @@
 <template>
   <div ref="containerRef" :style="`height: ${containerHeight}`">
     <div class="h-screen w-screen sticky top-0 left-0">
-      <!-- <div class="bg-blue-800" @click="unlockVideo">click ici</div> -->
       <video
         ref="videoRef"
         class="w-full h-full object-cover"

@@ -1,9 +1,27 @@
 <script setup>
+  import { useElementVisibility } from '@vueuse/core'
   const { $lenis } = useNuxtApp()
 
   const videoRef = ref(null)
   const containerRef = ref(null)
   const containerHeight = ref('50%')
+
+  const targetIsVisible = useElementVisibility(videoRef)
+  watch(targetIsVisible, isVisible => {
+    if (isVisible) {
+      unlockVideo()
+    }
+  })
+
+  const unlockVideo = () => {
+    const video = videoRef.value
+    if (!video) return
+    console.log('unlockVideo')
+    video.play()
+    setTimeout(() => {
+      video.pause()
+    }, 100)
+  }
 
   onMounted(() => {
     if (!videoRef.value) return
@@ -11,7 +29,6 @@
 
     const updateHeight = () => {
       if (!video.duration) return
-      console.log('update')
       containerHeight.value = `${video.duration * 500}px`
     }
 
@@ -45,7 +62,14 @@
 <template>
   <div ref="containerRef" :style="`height: ${containerHeight}`">
     <div class="h-screen w-screen sticky top-0 left-0">
-      <video ref="videoRef" class="w-full h-full object-cover">
+      <!-- <div class="bg-blue-800" @click="unlockVideo">click ici</div> -->
+      <video
+        ref="videoRef"
+        class="w-full h-full object-cover"
+        poster="/video-desktop.png"
+        muted
+        playsinline
+        preload="auto">
         <source
           src="https://template-video-lenis.cdn.prismic.io/template-video-lenis/aYMPvd0YXLCxVWZK_video-desktop.mp4"
           type="video/mp4" />

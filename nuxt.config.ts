@@ -6,7 +6,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true }, 
     modules: ['@nuxtjs/device'],
   css: ['~~/assets/css/main.css'],
- app: {
+  app: {
     head: {
      link: [
         {   

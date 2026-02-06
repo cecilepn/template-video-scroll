@@ -9,7 +9,12 @@ export default defineNuxtConfig({
  app: {
     head: {
      link: [
-        { rel: 'video', href: 'https://template-video-lenis.cdn.prismic.io/template-video-lenis/aYMPvd0YXLCxVWZK_video-desktop.mp4' },
+        {   
+          rel: "preload",
+          as:"video",
+          href: "https://template-video-lenis.cdn.prismic.io/template-video-lenis/aYMPvd0YXLCxVWZK_video-desktop.mp4",
+          type: "video/mp4" 
+        },
       ]
     }
   },

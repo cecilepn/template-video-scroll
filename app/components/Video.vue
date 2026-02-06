@@ -44,7 +44,7 @@
         class="w-full h-full object-cover"
         poster="/video-desktop.png"
         muted
-        preload="metadata">
+        preload="auto">
         <source
           src="https://template-video-lenis.cdn.prismic.io/template-video-lenis/aYMPvd0YXLCxVWZK_video-desktop.mp4"
           type="video/mp4" />

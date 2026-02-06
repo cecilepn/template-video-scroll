@@ -8,7 +8,7 @@
     if (!videoRef.value) return
     const video = videoRef.value
 
-    video.addEventListener('loadedmetadata', () => {
+    video.addEventListener('canplaythrough', () => {
       if (!video.duration) return
       const pxPerSecond = 500
       containerHeight.value = `${video.duration * pxPerSecond}px`
